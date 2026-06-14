@@ -6,13 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import lombok.AccessLevel;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Getter
 @Setter
 @Table(name = "users")
@@ -20,19 +23,27 @@ public class User extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(unique = true, nullable = false, updatable = false)
-    private UUID uuid;
+    private UUID uuid;   
 
     @Column(unique = true)
     private String name;
 
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
 
     private String firstname;
     private String lastname;
+
+    @Getter(AccessLevel.PROTECTED)
+    @Setter(AccessLevel.PRIVATE)
+    @OneToMany(mappedBy = "host", fetch = FetchType.LAZY)
+    private Set<Property> properties = new HashSet<>();
     
 
     @PrePersist
@@ -49,5 +60,21 @@ public class User extends AbstractEntity {
     @Override
     public int hashCode() {
         return Objects.hashCode(getUuid());
+    }
+
+    public Set<Property> getAllProperties() {
+        return Collections.unmodifiableSet(properties);
+    }
+
+     public void addProperty(Property property) {
+        if (properties == null) properties = new HashSet<>();
+        properties.add(property);
+        property.setUser(this);
+    }
+
+    public void removeProperty(Property property) {
+        if (properties == null) return;
+        properties.remove(property);
+        property.setUser(null);
     }
 }
