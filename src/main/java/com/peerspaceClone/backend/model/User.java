@@ -1,6 +1,5 @@
 package com.peerspaceClone.backend.model;
 
-//import gr.aueb.cf.eduapp.model.static_data.Region;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

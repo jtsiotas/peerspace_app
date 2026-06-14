@@ -1,0 +1,84 @@
+package com.peerspaceClone.backend.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+@Entity
+//@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Table(name = "roles")
+public class Role extends AbstractEntity{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String name;
+
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.PROTECTED)
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    private Set<User> users = new HashSet<>();
+
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.PROTECTED)
+    @ManyToMany(fetch = FetchType.LAZY)
+    // many to many me isxuro meros to role kai endiameso pinaka ton
+    // roles_capabilities ftiaxnetai akrivws etsi!
+    @JoinTable(name = "roles_capabilities", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "capability_id"))
+    private Set<Capability> capabilities = new HashSet<>();
+
+    // auto einai polu kontino me to unmodifiable set einai apla pio neo kai akm kai
+    // an ginei modify to arxiko set den tha ginei modify auto edw
+    public Set<Capability> getAllCapabilities() {
+        return Set.copyOf(capabilities);
+    }
+
+    public Set<User> getAllUsers() {
+        return Set.copyOf(users);
+    }
+
+    public void addCapability(Capability capability) {
+        capabilities.add(capability);
+        capability.getRoles().add(this);
+    }
+
+    public void removeCapability(Capability capability) {
+        capabilities.remove(capability);
+        capability.getRoles().remove(this);
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+        user.setRole(this);
+    }
+
+    public void removeUser(User user) {
+        users.remove(user);
+        user.setRole(null);
+    }
+
+    public void addUsers(Collection<User> users) {
+        users.forEach(this::addUser);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Role role))
+            return false;
+        return Objects.equals(getName(), role.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getName());
+    }
+}
