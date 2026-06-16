@@ -55,7 +55,7 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PRIVATE)
-    @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Booking> bookings = new HashSet<>();
 
     @Getter(AccessLevel.PROTECTED)
@@ -145,14 +145,14 @@ public class User extends AbstractEntity implements UserDetails {
         if (bookings == null)
             bookings = new HashSet<>();
         bookings.add(booking);
-        booking.setGuest(this);
+        booking.setUser(this);
     }
 
     public void removeBooking(Booking booking) {
         if (bookings == null)
             return;
         bookings.remove(booking);
-        booking.setGuest(null);
+        booking.setUser(null);
     }
 
     public Set<Review> getAllReviews() {
