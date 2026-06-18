@@ -25,7 +25,7 @@ public class Role extends AbstractEntity{
 
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.PROTECTED)
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
 
     @Setter(AccessLevel.NONE)
@@ -58,12 +58,12 @@ public class Role extends AbstractEntity{
 
     public void addUser(User user) {
         users.add(user);
-        user.setRole(this);
+        user.getRoles().add(this);
     }
 
     public void removeUser(User user) {
         users.remove(user);
-        user.setRole(null);
+        user.getRoles().remove(this);
     }
 
     public void addUsers(Collection<User> users) {

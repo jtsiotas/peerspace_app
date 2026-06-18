@@ -32,8 +32,8 @@ public class Booking extends AbstractEntity {
     private Property property;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "guest_id", referencedColumnName = "uid", nullable = false)
+    private User guest;
     @Column(nullable = false)
     private LocalDateTime startDatetime;
     @Column(nullable = false)
@@ -45,7 +45,8 @@ public class Booking extends AbstractEntity {
     private BigDecimal propertyRate;
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal hostFee;
-
+    @Column(name="host_payout", precision = 10, scale = 2)
+    private BigDecimal hostPayout;
     @Column(nullable = false, precision = 10, scale = 2 )
     private BigDecimal guestFee;
     @Column(nullable = false, precision = 10, scale = 2)
@@ -60,6 +61,7 @@ public class Booking extends AbstractEntity {
     @Column(nullable = false)
     private BookingStatus status = BookingStatus.PENDING;
 
+    @Column(name="cancelation_policy")
     private String cancellationPolicy;
 
     private String canceledBy;

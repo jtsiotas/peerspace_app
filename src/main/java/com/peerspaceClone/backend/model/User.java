@@ -41,9 +41,15 @@ public class User extends AbstractEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role", nullable = false)
-    private Role role;
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.PROTECTED)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+    name = "users_roles",
+    joinColumns = @JoinColumn(name = "uid", referencedColumnName = "uid"),
+    inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     private String firstname;
     private String lastname;
@@ -55,7 +61,7 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PRIVATE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "guest", fetch = FetchType.LAZY)
     private Set<Booking> bookings = new HashSet<>();
 
     @Getter(AccessLevel.PROTECTED)
@@ -76,9 +82,13 @@ public class User extends AbstractEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
-        role.getCapabilities()
-                .forEach(capability -> grantedAuthorities.add(new SimpleGrantedAuthority(capability.getName())));
+        if (roles != null) {
+            roles.forEach(role -> {
+                grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+                role.getCapabilities().forEach(capability ->
+                    grantedAuthorities.add(new SimpleGrantedAuthority(capability.getName())));
+            });
+        }
         return grantedAuthorities;
     }
 
@@ -145,14 +155,14 @@ public class User extends AbstractEntity implements UserDetails {
         if (bookings == null)
             bookings = new HashSet<>();
         bookings.add(booking);
-        booking.setUser(this);
+        booking.setGuest(this);
     }
 
     public void removeBooking(Booking booking) {
         if (bookings == null)
             return;
         bookings.remove(booking);
-        booking.setUser(null);
+        booking.setGuest(null);
     }
 
     public Set<Review> getAllReviews() {
@@ -189,5 +199,21 @@ public class User extends AbstractEntity implements UserDetails {
             return;
         messages.remove(message);
         message.setSender(null);
+    }
+
+    public Set<Role> getAllRoles() {
+    return Set.copyOf(roles);
+    }
+
+    public void addRole(Role role) {
+        if (roles == null) roles = new HashSet<>();
+        roles.add(role);
+        role.getUsers().add(this); // see Role.java note below
+    }
+
+    public void removeRole(Role role) {
+        if (roles == null) return;
+        roles.remove(role);
+        role.getUsers().remove(this);
     }
 }
