@@ -3,6 +3,7 @@ package com.peerspaceClone.backend.model;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.persistence.*;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 // @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "reviews")
+@Table(name = "reviews", uniqueConstraints = @UniqueConstraint(columnNames = {"booking_id", "reviewer_id"}))
 public class Review extends AbstractEntity {
 
     @Id

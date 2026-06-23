@@ -12,7 +12,8 @@ import java.util.Set;
 import java.util.Objects;
 import java.util.UUID;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
+import java.time.Instant;
 import com.peerspaceClone.backend.model.BookingStatus;
 
 @Entity
@@ -35,9 +36,10 @@ public class Booking extends AbstractEntity {
     @JoinColumn(name = "guest_id", nullable = false)
     private User guest;
     @Column(nullable = false)
-    private LocalDateTime startDatetime;
+    private Instant startDatetime;
+
     @Column(nullable = false)
-    private LocalDateTime endDatetime;
+    private Instant endDatetime;
     @Column(nullable = false)
     private BigDecimal totalHours;
 
@@ -66,7 +68,7 @@ public class Booking extends AbstractEntity {
 
     private String canceledBy;
 
-    private LocalDateTime cancelationDate;
+    private Instant cancellationDate;
 
     private String cancelationReason;
 

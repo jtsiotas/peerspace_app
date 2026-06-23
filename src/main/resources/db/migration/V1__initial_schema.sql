@@ -119,7 +119,7 @@ CREATE TABLE bookings (
     canceled_by VARCHAR(50) NULL,
     cancelation_reason VARCHAR(255) NULL,
     status VARCHAR(50) NOT NULL,
-    cancelation_date TIMESTAMPTZ NULL,
+    cancellation_date TIMESTAMPTZ NULL,
     created_at TIMESTAMPTZ NOT NULL,
     updated_at TIMESTAMPTZ NOT NULL,
     deleted BOOLEAN NOT NULL DEFAULT FALSE,
@@ -150,6 +150,7 @@ CREATE TABLE reviews (
     deleted BOOLEAN NOT NULL DEFAULT FALSE,
     deleted_at TIMESTAMPTZ NULL,
     CONSTRAINT pk_review PRIMARY KEY (id),
+    CONSTRAINT uq_review_booking_reviewer UNIQUE (booking_id, reviewer_id),
     CONSTRAINT fk_review_booking FOREIGN KEY (booking_id)
         REFERENCES bookings(id) ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT fk_review_reviewer FOREIGN KEY (reviewer_id)
