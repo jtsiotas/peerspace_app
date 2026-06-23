@@ -70,8 +70,10 @@ public class Property extends AbstractEntity {
     private int minHours;
 
     private int maxHours;
-
-    private String type;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private PropertyType type;
 
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PRIVATE)

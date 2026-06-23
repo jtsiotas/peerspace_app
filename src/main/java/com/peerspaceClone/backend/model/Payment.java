@@ -34,7 +34,9 @@ public class Payment extends AbstractEntity {
 
     private String currency;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PaymentStatus status;
 
     private String method;
 

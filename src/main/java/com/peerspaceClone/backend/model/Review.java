@@ -40,8 +40,9 @@ public class Review extends AbstractEntity {
     @JoinColumn(name = "reviewee_id", nullable = false)
     private User reviewee;
     
-    @Column(name = "reviewer_role", nullable = false)
-    private String reviewerRole;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewer_role", nullable = false)
+    private Role reviewerRole;
     
     @Min(1)
     @Max(5)
