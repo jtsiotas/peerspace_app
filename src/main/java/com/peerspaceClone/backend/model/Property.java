@@ -45,10 +45,10 @@ public class Property extends AbstractEntity {
     @Column(nullable = false)
     private PropertyStatus status = PropertyStatus.PENDING;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal hourlyRate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal halfDayRate;
 
     @Column(nullable = false)
@@ -57,10 +57,10 @@ public class Property extends AbstractEntity {
     @Column(nullable = false)
     private String timezone;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal longitude;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal latitude;
 
     private int sizeSqm;

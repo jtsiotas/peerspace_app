@@ -29,7 +29,7 @@ public class Payment extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
-
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
 
     private String currency;
@@ -41,7 +41,7 @@ public class Payment extends AbstractEntity {
     private LocalDateTime paidAt;
 
     private LocalDateTime refundedAt;
-
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal refundAmount;
 
 }
