@@ -31,7 +31,7 @@ public class Message extends AbstractEntity {
     private Booking booking;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_id", referencedColumnName = "uid", nullable = false)
+    @JoinColumn(name = "sender_id", nullable = false)
     private User sender;
 
     @Column(columnDefinition = "TEXT")

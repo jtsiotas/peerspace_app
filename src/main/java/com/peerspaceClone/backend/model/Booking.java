@@ -32,7 +32,7 @@ public class Booking extends AbstractEntity {
     private Property property;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "guest_id", referencedColumnName = "uid", nullable = false)
+    @JoinColumn(name = "guest_id", nullable = false)
     private User guest;
     @Column(nullable = false)
     private LocalDateTime startDatetime;

@@ -33,11 +33,11 @@ public class Review extends AbstractEntity {
     private Booking booking;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewer_id", referencedColumnName = "uid", nullable = false)
+    @JoinColumn(name = "reviewer_id", nullable = false)
     private User reviewer;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewee_id", referencedColumnName = "uid", nullable = false)
+    @JoinColumn(name = "reviewee_id", nullable = false)
     private User reviewee;
     
     @Column(name = "reviewer_role", nullable = false)

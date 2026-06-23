@@ -26,7 +26,7 @@ public class Property extends AbstractEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "host_id", referencedColumnName = "uid")
+    @JoinColumn(name = "host_id")
     private User host;
 
     @Column(unique = true)
