@@ -53,8 +53,6 @@ public class Booking extends AbstractEntity {
     private BigDecimal guestFee;
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal totalAmount;
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal hostAmount;
     
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal subtotal;

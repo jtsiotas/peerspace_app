@@ -14,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "roles")
-public class Role extends AbstractEntity{
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

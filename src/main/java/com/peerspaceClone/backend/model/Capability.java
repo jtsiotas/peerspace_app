@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "capabilities")
-public class Capability extends AbstractEntity{
+public class Capability {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
